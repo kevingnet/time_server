@@ -1,0 +1,13 @@
+﻿<h1>Time Server App</h1>
+<table class="table table-striped">
+    <thead>
+        <tr>
+            <th style="width: 30%">Current Time</th>
+        </tr>
+    </thead>
+    <tbody>
+    <tr *ngFor="let t of times">
+      <td>{{t.time}}</td>
+    </tr>
+    </tbody>
+</table>

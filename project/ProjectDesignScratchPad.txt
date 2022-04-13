@@ -1,0 +1,48 @@
+Option 4: Backend Fun
+Create a REST API to serve out the current time securely. 
+Include an unprotected API to login and receive a token, and a protected API 
+to receive the current time. Use a docker environment to build and run the code.
+
+
+Time Server Application
+
+CURRENT STATE and ISSUES:
+- Server is nodejs, with a RESTful API, has logon capabilities, this isn't really a proper logon since
+    it doesn't use OAuth2, but simple database query to find user, check password,
+    currently is very buggy and in a state of flux, other queries do not use proper secured channels, and
+    the app doesn't check, not protected via authentication or tokens, so that was more work to do, and 
+    would have had to test using the server.
+    
+- The state of the RESTful API is that of simple CRUD operations for tables. 
+    
+DIRECTORIES
+datagen: generate data to import into the mysql database, python scripts
+loadtests: set of tests run with Apache JMeter, contains graphics and other metrics, including the project
+            file to be able to run it
+mysql: schema graphics, ddl to recreate the time server database
+
+==============================================
+COMPONENTS:
+cloud computer (ec2): SERVER
+    - hosts Node.js app
+    - serves REST APIs
+cloud database (mysql): SERVER access
+    - table users 
+
+==============================================
+COMPONENT COMMUNICATIONS
+    - CLIENT opens application link, and OAUTH2 authentication happens, a UserName is obtained
+    - CLIENT calls Logon API with UserName
+    - SERVER access database, identifies UserName and returns token
+    - User gets current time
+    
+==============================================
+APIs (Operations)
+
+USERS: (GUESTS)
+Logon
+Get current time
+
+
+
+=====================================================
