@@ -5,14 +5,32 @@ import { delay, materialize, dematerialize } from 'rxjs/operators';
 
 // array in local storage for registered users
 const usersKey = 'angular-10-registration-login-example-users';
-let users = JSON.parse(localStorage.getItem(usersKey)) || [
+const DEFAULT_USERS = [
     { id: 1, username: 'test', password: 'test', firstName: 'Test', lastName: 'User', email: 'test@test.com' }
 ];
+
+function loadUsers() {
+    let stored: typeof DEFAULT_USERS;
+    try {
+        stored = JSON.parse(localStorage.getItem(usersKey));
+    } catch {
+        stored = null;
+    }
+    if (!Array.isArray(stored) || stored.length === 0) {
+        stored = [...DEFAULT_USERS];
+        localStorage.setItem(usersKey, JSON.stringify(stored));
+    } else if (!stored.some(u => u.username === 'test')) {
+        stored = [...DEFAULT_USERS, ...stored];
+        localStorage.setItem(usersKey, JSON.stringify(stored));
+    }
+    return stored;
+}
 
 @Injectable()
 export class FakeBackendInterceptor implements HttpInterceptor {
     intercept(request: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
         const { url, method, headers, body } = request;
+        let users = loadUsers();
 
         return handleRoute();
 
